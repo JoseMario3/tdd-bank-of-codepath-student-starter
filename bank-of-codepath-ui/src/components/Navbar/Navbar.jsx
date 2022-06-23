@@ -41,10 +41,8 @@ export default function Navbar(props) {
 
 export function Logo() {
   return (
-    <a className="logo">
-      <Link to="/">
-        <img src={codepath} alt="logo" />
-      </Link>
-    </a>
+    <Link to="/" className="logo">
+      <img src={codepath} alt="logo" />
+    </Link>
   );
 }

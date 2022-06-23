@@ -16,7 +16,7 @@ export default function Home(props) {
       : props.transactions;
 
   function handleOnSubmitNewTransaction() {
-    return 0;
+    handleOnCreateTransaction();
   }
 
   useEffect(() => {
@@ -47,7 +47,32 @@ export default function Home(props) {
     getTransfers();
     props.setIsLoading(false);
   }, []);
-  console.log("Home props", props);
+
+  const handleOnCreateTransaction = async () => {
+    props.setIsCreating(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/bank/transactions",
+        { transaction: props.newTransactionForm }
+      );
+
+      props.setTransactions((current) => [
+        ...current,
+        response.data.transaction,
+      ]);
+    } catch (error) {
+      props.setError(error);
+      props.setIsCreating(false);
+    }
+
+    props.setNewTransactionForm({
+      category: "",
+      description: "",
+      amount: 0,
+    });
+    props.setIsCreating(false);
+  };
+
   return (
     <div className="home">
       <AddTransaction
@@ -61,7 +86,10 @@ export default function Home(props) {
       {props.isLoading ? (
         <h1 className="loading-text">Loading...</h1>
       ) : (
-        <BankActivity transactions={filteredTransactions} />
+        <BankActivity
+          transactions={filteredTransactions}
+          transfers={props.transfers}
+        />
       )}
     </div>
   );

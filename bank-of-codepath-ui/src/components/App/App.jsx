@@ -8,8 +8,8 @@ import { useState } from "react";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
-  const [transactions, setTransactions] = useState(null);
-  const [transfers, setTransfers] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [transfers, setTransfers] = useState([]);
   const [error, setError] = useState(null);
   const [filterInputValue, setFilterInputValue] = useState("");
   const [newTransactionForm, setNewTransactionForm] = useState({
@@ -49,7 +49,7 @@ export default function App() {
               }
             />
             <Route
-              path="/transactions/:transactionDetail"
+              path="/transactions/:transactionId"
               element={<TransactionDetail />}
             />
           </Routes>
